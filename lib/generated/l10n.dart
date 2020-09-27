@@ -33,41 +33,11 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `Flutter Starter Template`
-  String get appName {
+  /// `Main Page`
+  String get mainPageTitle {
     return Intl.message(
-      'Flutter Starter Template',
-      name: 'appName',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Counter Page`
-  String get counterPageTitle {
-    return Intl.message(
-      'Counter Page',
-      name: 'counterPageTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `You have pushed the button\nthis many times:`
-  String get counterBody {
-    return Intl.message(
-      'You have pushed the button\nthis many times:',
-      name: 'counterBody',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Increment`
-  String get incrementButtonTooltip {
-    return Intl.message(
-      'Increment',
-      name: 'incrementButtonTooltip',
+      'Main Page',
+      name: 'mainPageTitle',
       desc: '',
       args: [],
     );

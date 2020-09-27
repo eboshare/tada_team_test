@@ -33,11 +33,31 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `Main Page`
-  String get mainPageTitle {
+  /// `Log In`
+  String get loginPageTitle {
     return Intl.message(
-      'Main Page',
-      name: 'mainPageTitle',
+      'Log In',
+      name: 'loginPageTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Username`
+  String get loginFormUsername {
+    return Intl.message(
+      'Username',
+      name: 'loginFormUsername',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Room name`
+  String get loginFormRoom {
+    return Intl.message(
+      'Room name',
+      name: 'loginFormRoom',
       desc: '',
       args: [],
     );

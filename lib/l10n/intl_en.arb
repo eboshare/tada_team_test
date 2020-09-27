@@ -1,3 +1,5 @@
 {
-  "mainPageTitle": "Main Page"
+  "loginPageTitle": "Log In",
+  "loginFormUsername": "Username",
+  "loginFormRoom": "Room name"
 }

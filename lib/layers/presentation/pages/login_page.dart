@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tada_team_test/layers/domain/entities/outgoing_message.dart';
-import 'package:web_socket_channel/io.dart';
 
 import 'package:tada_team_test/generated/l10n.dart';
 import 'package:tada_team_test/injection/injection.dart';
-import 'package:tada_team_test/layers/domain/repositories/i_chat_room_repository.dart';
+import 'package:tada_team_test/layers/domain/repositories/i_chat_facade.dart';
+import 'package:tada_team_test/layers/domain/repositories/i_chat_service.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -12,14 +11,14 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final IChatRoomsRepository repository = getIt();
+  final IChatFacade repository = getIt();
 
-  IChatRepository room;
+  IChat room;
 
   @override
   void initState() {
     super.initState();
-    room = repository.enterRoom(roomName: 'test_2020-09-27', username: 'superjija');
+    room = repository.enterRoom(roomName: 'test_2020-09-27', username: 'NagibatorAnton');
     room.listenToMessages(print);
   }
 
@@ -52,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               RaisedButton(
-                onPressed: () => room.sendMessage('jija'),
+                onPressed: () => room.sendMessage('jija4'),
                 child: const Text('send message'),
               )
             ],

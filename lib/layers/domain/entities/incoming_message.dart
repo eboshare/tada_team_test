@@ -6,6 +6,20 @@ import 'package:tada_team_test/layers/domain/entities/sender.dart';
 part 'incoming_message.g.dart';
 
 @JsonSerializable()
+class IncomingMessageListResponse {
+  @JsonKey(name: 'result')
+  final List<IncomingMessage> result;
+
+  const IncomingMessageListResponse({
+    @required this.result,
+  });
+
+  factory IncomingMessageListResponse.fromJson(Map<String, dynamic> json) =>
+      _$IncomingMessageListResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$IncomingMessageListResponseToJson(this);
+}
+
+@JsonSerializable()
 class IncomingMessage {
   @JsonKey(name: 'id')
   final String id;

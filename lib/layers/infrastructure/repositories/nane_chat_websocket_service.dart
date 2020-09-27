@@ -1,31 +1,47 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 import 'package:injectable/injectable.dart';
+import 'package:retrofit/http.dart';
+import 'package:uuid/uuid.dart';
 import 'package:web_socket_channel/io.dart';
 
-import 'package:tada_team_test/layers/domain/repositories/i_chat_room_repository.dart';
+import 'package:tada_team_test/layers/domain/repositories/i_chat_service.dart';
 import 'package:tada_team_test/layers/domain/entities/outgoing_message.dart';
 import 'package:tada_team_test/layers/domain/entities/incoming_message.dart';
+import 'package:tada_team_test/layers/domain/entities/room.dart';
+import 'package:tada_team_test/layers/domain/entities/settings.dart';
 
-@Singleton(as: IChatRoomsRepository)
-class NaneChatRoomsRepository implements IChatRoomsRepository {
-  static const _baseUrl = 'wss://nane.tada.team/ws?username=';  // actually this is a room name
+final uuid = Uuid();
+
+@Singleton(as: IChatService)
+class NaneChatService implements IChatService {
+  String _constructWebSocketUri({String username}) {
+    return Uri(
+      scheme: 'wss',
+      host: 'nane.tada.team',
+      path: '/ws',
+      queryParameters: {'username': username},
+    ).toString();
+  }
 
   @override
-  IChatRepository enterRoom({String roomName}) {
-    return NaneChatRepository(
+  IChat enterRoom({String roomName, String username}) {
+    return NaneChat(
       roomName: roomName,
-      channel: IOWebSocketChannel.connect('$_baseUrl$roomName'),
+      channel: IOWebSocketChannel.connect(
+        _constructWebSocketUri(username: username),
+      ),
     );
   }
 }
 
-class NaneChatRepository implements IChatRepository {
+class NaneChat implements IChat {
   final IOWebSocketChannel channel;
   final String roomName;
 
-  const NaneChatRepository({
+  const NaneChat({
     @required this.channel,
     @required this.roomName,
   });
@@ -48,12 +64,11 @@ class NaneChatRepository implements IChatRepository {
   void sendMessage(String text) {
     final data = jsonEncode(
       OutgoingMessage(
-        id: '777',
+        id: uuid.v4(),
         room: roomName,
         text: text,
       ).toJson(),
     );
-    print('Nane sendMessage $data');
     channel.sink.add(data);
   }
 }

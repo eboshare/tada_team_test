@@ -2,6 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'package:tada_team_test/helper/extensions.dart';
 
+class DesignDimension {
+  final double bubbleRadius;
+
+  const DesignDimension({
+    @required this.bubbleRadius,
+  });
+}
+
 class DesignSystemColor {
   final Color blue;
   final Color black;
@@ -51,10 +59,12 @@ class DesignSystemText {
 class DesignSystemData {
   final DesignSystemColor color;
   final DesignSystemText text;
+  final DesignDimension dimension;
 
   const DesignSystemData({
     @required this.color,
     @required this.text,
+    @required this.dimension,
   });
 
   factory DesignSystemData.main() {
@@ -73,6 +83,9 @@ class DesignSystemData {
 
     return DesignSystemData(
       color: color,
+      dimension: const DesignDimension(
+        bubbleRadius: 35,
+      ),
       text: DesignSystemText(
         chatListTileUsername: roboto.copyWith(
           fontWeight: FontWeight.w700,

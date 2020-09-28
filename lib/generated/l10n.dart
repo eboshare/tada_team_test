@@ -82,6 +82,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Chat history is empty`
+  String get emptyChatHistory {
+    return Intl.message(
+      'Chat history is empty',
+      name: 'emptyChatHistory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create Chat Room`
+  String get newChatRoomPageTitle {
+    return Intl.message(
+      'Create Chat Room',
+      name: 'newChatRoomPageTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New chat room name`
+  String get newChatRoomFormPlaceholder {
+    return Intl.message(
+      'New chat room name',
+      name: 'newChatRoomFormPlaceholder',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -1,8 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:tada_team_test/generated/l10n.dart';
 
 import 'package:tada_team_test/injection/injection.dart';
+import 'package:tada_team_test/helper/extensions.dart';
 import 'package:tada_team_test/helper/constants.dart';
 import 'package:tada_team_test/layers/domain/entities/incoming_message.dart';
 import 'package:tada_team_test/layers/domain/entities/room.dart';
@@ -18,7 +20,7 @@ class ChatRoomPage extends StatefulWidget {
 
   const ChatRoomPage({
     Key key,
-    this.room,
+    @required this.room,
   }) : super(key: key);
 
   @override
@@ -28,7 +30,7 @@ class ChatRoomPage extends StatefulWidget {
 class _ChatRoomPageState extends State<ChatRoomPage> {
   final IChatRoomStore pageStore = getIt();
   final IGlobalStore globalStore = getIt();
-  
+
   ScrollController _scrollController;
 
   @override
@@ -49,9 +51,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          widget.room.name,
-        ),
+        title: Text(widget.room.name),
       ),
       body: SafeArea(
         child: Column(
@@ -67,20 +67,26 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                     case LoadingStatus.error:
                       return ErrorPlaceholder();
                     case LoadingStatus.success:
-                      return ListView.separated(
-                        controller: _scrollController,
-                        itemCount: pageStore.history.length,
-                        padding: const EdgeInsets.all(10),
-                        separatorBuilder: (_, __) => const SizedBox(height: 15),
-                        itemBuilder: (context, index) {
-                          final message = pageStore.history[index];
-                          if (_isMyMessage(globalStore.username, message)) {
-                            return OutgoingMessageTile(message: message);
-                          } else {
-                            return IncomingMessageTile(message: message);
-                          }
-                        },
-                      );
+                      if (pageStore.history.isEmptyOrNull) {
+                        return Center(
+                          child: Text(S.of(context).emptyChatHistory,),
+                        );
+                      } else {
+                        return ListView.separated(
+                          controller: _scrollController,
+                          itemCount: pageStore.history.length,
+                          padding: const EdgeInsets.all(10),
+                          separatorBuilder: (_, __) => const SizedBox(height: 15),
+                          itemBuilder: (context, index) {
+                            final message = pageStore.history[index];
+                            if (_isMyMessage(globalStore.username, message)) {
+                              return OutgoingMessageTile(message: message);
+                            } else {
+                              return IncomingMessageTile(message: message);
+                            }
+                          },
+                        );
+                      }
                   }
                   throw Exception('An unhandled LoadingStatus case: ${pageStore.status}');
                 },

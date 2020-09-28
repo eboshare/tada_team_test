@@ -14,6 +14,7 @@ class OutgoingMessageTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final designSystem = DesignSystem.of(context);
+    final bigRadius = Radius.circular(designSystem.dimension.bubbleRadius);
     return Container(
       alignment: Alignment.centerRight,
       child: Container(
@@ -23,11 +24,11 @@ class OutgoingMessageTile extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           color: designSystem.color.lightGray,
-          borderRadius: const BorderRadius.only(
+          borderRadius: BorderRadius.only(
             topRight: Radius.circular(10),
-            topLeft: Radius.circular(35),
-            bottomLeft: Radius.circular(35),
-            bottomRight: Radius.circular(35),
+            topLeft: bigRadius,
+            bottomLeft: bigRadius,
+            bottomRight: bigRadius,
           ),
         ),
         child: Text(

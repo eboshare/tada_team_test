@@ -19,38 +19,58 @@ class ChatListTile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(15),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          Container(
+            width: 70,
+            height: 70,
+            decoration: BoxDecoration(
+              color: designSystem.color.lightGray,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              Icons.photo_camera,
+              color: designSystem.color.gray.withOpacity(0.5),
+            ),
+          ),
+          const SizedBox(width: 15),
           Expanded(
-            child: Column(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  room.name,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: designSystem.text.chatListTileUsername,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        room.name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: designSystem.text.chatListTileUsername,
+                      ),
+                      Text(
+                        room.lastMessage.text,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: designSystem.text.chatListTileLastMessageText,
+                      )
+                    ],
+                  ),
                 ),
-                Text(
-                  room.lastMessage.text,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: designSystem.text.chatListTileLastMessageText,
+                const SizedBox(width: 40),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      _formatDateTime(context, room.lastMessage.createdAt),
+                      style: designSystem.text.chatListTileLastMessageTime,
+                    ),
+                  ],
                 )
               ],
             ),
           ),
-          const SizedBox(width: 40),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text(
-                _formatDateTime(context, room.lastMessage.createdAt),
-                style: designSystem.text.chatListTileLastMessageTime,
-              ),
-            ],
-          )
         ],
       ),
     );

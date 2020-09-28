@@ -27,8 +27,10 @@ class Room {
 
   const Room({
     @required this.name,
-    @required this.lastMessage,
+    this.lastMessage,
   });
+
+  factory Room.create({@required name}) => Room(name: name);
 
   factory Room.fromJson(Map<String, dynamic> json) => _$RoomFromJson(json);
   Map<String, dynamic> toJson() => _$RoomToJson(this);

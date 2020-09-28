@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:tada_team_test/generated/l10n.dart';
 
 import 'package:tada_team_test/helper/constants.dart';
+import 'package:tada_team_test/generated/l10n.dart';
 import 'package:tada_team_test/helper/extensions.dart';
 import 'package:tada_team_test/injection/injection.dart';
 import 'package:tada_team_test/layers/domain/stores/i_chat_list_store.dart';
@@ -12,6 +12,7 @@ import 'package:tada_team_test/layers/presentation/components/chat_list_tile.dar
 import 'package:tada_team_test/layers/presentation/components/error_placeholder.dart';
 import 'package:tada_team_test/layers/presentation/components/tappable.dart';
 import 'package:tada_team_test/layers/presentation/design_system/design_system.dart';
+import 'package:tada_team_test/layers/presentation/pages/new_chat_room_page.dart';
 
 class ChatListPage extends StatefulWidget {
   @override
@@ -34,6 +35,10 @@ class _ChatListPageState extends State<ChatListPage> {
       appBar: AppBar(
         title: Text(S.of(context).chatListPageTitle),
       ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () => ExtendedNavigator.of(context).pushNewChatRoomPage(),
+      ),
       body: Observer(
         builder: (context) {
           switch (store.status) {
@@ -50,6 +55,7 @@ class _ChatListPageState extends State<ChatListPage> {
                   return Container(
                     height: 1,
                     color: designSystem.color.lightGray,
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
                   );
                 },
                 itemBuilder: (context, index) {

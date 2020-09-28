@@ -1,7 +1,9 @@
 import 'package:meta/meta.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
+import 'package:dio/dio.dart';
 
+import 'package:tada_team_test/helper/extensions.dart';
 import 'package:tada_team_test/helper/constants.dart';
 import 'package:tada_team_test/helper/store_helpers.dart';
 import 'package:tada_team_test/layers/domain/entities/incoming_message.dart';
@@ -43,8 +45,14 @@ abstract class ChatRoomStoreBase with Store implements IChatRoomStore {
 
   @action
   Future<void> _loadMessageHistory(String roomName) async {
-    final response = await facade.getMessageHistory(roomName);
-    _history = response.result;
+    try {
+      final response = await facade.getMessageHistory(roomName);
+      if (!response.result.isEmptyOrNull) {
+        _history = response.result;
+      }
+    } on DioError catch (_) {
+      _history = [];
+    }
   }
 
   @override

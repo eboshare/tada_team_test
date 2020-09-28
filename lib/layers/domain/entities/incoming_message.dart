@@ -15,8 +15,12 @@ class IncomingMessageListResponse {
   @JsonKey(name: 'result')
   final List<IncomingMessage> result;
 
+  @JsonKey(name: 'error')
+  final String error;
+
   const IncomingMessageListResponse({
     @required this.result,
+    @required this.error,
   });
 
   factory IncomingMessageListResponse.fromJson(Map<String, dynamic> json) =>

@@ -4,5 +4,9 @@
 
   "chatListPageTitle": "Rooms",
   "chatListTileTime": "HH:mm",
-  "chatTextFieldPlaceholder": "Enter some text..."
+  "chatTextFieldPlaceholder": "Enter some text...",
+  "emptyChatHistory": "Chat history is empty",
+
+  "newChatRoomPageTitle": "Create Chat Room",
+  "newChatRoomFormPlaceholder": "New chat room name"
 }

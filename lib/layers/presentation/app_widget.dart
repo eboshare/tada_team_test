@@ -27,6 +27,9 @@ class _Setup extends StatelessWidget {
         primaryColor: designSystem.color.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
         scaffoldBackgroundColor: designSystem.color.white,
+        bottomSheetTheme: BottomSheetThemeData(
+          backgroundColor: designSystem.color.white,
+        ),
       ),
       builder: ExtendedNavigator.builder(
         router: Router(),

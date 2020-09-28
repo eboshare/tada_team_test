@@ -24,7 +24,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "chatListPageTitle" : MessageLookupByLibrary.simpleMessage("Rooms"),
     "chatListTileTime" : MessageLookupByLibrary.simpleMessage("HH:mm"),
     "chatTextFieldPlaceholder" : MessageLookupByLibrary.simpleMessage("Enter some text..."),
+    "emptyChatHistory" : MessageLookupByLibrary.simpleMessage("Chat history is empty"),
     "loginFormUsernamePlaceholder" : MessageLookupByLibrary.simpleMessage("Username"),
-    "loginPageTitle" : MessageLookupByLibrary.simpleMessage("Log In")
+    "loginPageTitle" : MessageLookupByLibrary.simpleMessage("Log In"),
+    "newChatRoomFormPlaceholder" : MessageLookupByLibrary.simpleMessage("New chat room name"),
+    "newChatRoomPageTitle" : MessageLookupByLibrary.simpleMessage("Create Chat Room")
   };
 }

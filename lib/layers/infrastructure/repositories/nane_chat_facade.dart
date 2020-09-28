@@ -15,7 +15,7 @@ class NaneChatFacade implements IChatFacade {
   const NaneChatFacade(this.chatClient, this.chatProvider);
 
   @override
-  IChat enterRoom({String roomName, String username}) {
+  IChatRoom enterRoom({String roomName, String username}) {
     return chatProvider.enterRoom(roomName: roomName, username: username);
   }
 

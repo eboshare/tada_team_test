@@ -1,9 +1,14 @@
 import 'package:meta/meta.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:intl/intl.dart';
 
 import 'package:tada_team_test/layers/domain/entities/sender.dart';
 
 part 'incoming_message.g.dart';
+
+DateTime isoDateTimeFromJson(String dateTimeString) => DateTime.parse(dateTimeString);
+
+String isoDateToJson(DateTime dateTime) => dateTime.toIso8601String();
 
 @JsonSerializable()
 class IncomingMessageListResponse {
@@ -25,20 +30,24 @@ class IncomingMessage {
   final String id;
 
   @JsonKey(name: 'room')
-  final String room;
+  final String roomName;
 
   @JsonKey(name: 'text')
   final String text;
 
-  @JsonKey(name: 'created')
-  final String createdAt;
+  @JsonKey(
+    name: 'created',
+    fromJson: isoDateTimeFromJson,
+    toJson: isoDateToJson,
+  )
+  final DateTime createdAt;
 
   @JsonKey(name: 'sender')
   final Sender sender;
 
   const IncomingMessage({
     @required this.id,
-    @required this.room,
+    @required this.roomName,
     @required this.text,
     @required this.createdAt,
     @required this.sender,

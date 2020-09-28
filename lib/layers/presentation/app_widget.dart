@@ -20,11 +20,13 @@ class App extends StatelessWidget {
 class _Setup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final designSystem = DesignSystem.of(context);
     return MaterialApp(
       title: 'Tada Team Test', // can't use S.of(context)
       theme: ThemeData(
-        primarySwatch: DesignSystem.of(context).color.blue,
+        primaryColor: designSystem.color.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        scaffoldBackgroundColor: designSystem.color.white,
       ),
       builder: ExtendedNavigator.builder(
         router: Router(),

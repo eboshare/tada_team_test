@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
@@ -27,8 +28,8 @@ class NaneChatService implements IChatService {
   }
 
   @override
-  IChat enterRoom({String roomName, String username}) {
-    return NaneChat(
+  IChatRoom enterRoom({String roomName, String username}) {
+    return NaneChatRoom(
       roomName: roomName,
       channel: IOWebSocketChannel.connect(
         _constructWebSocketUri(username: username),
@@ -37,27 +38,32 @@ class NaneChatService implements IChatService {
   }
 }
 
-class NaneChat implements IChat {
+class NaneChatRoom implements IChatRoom {
   final IOWebSocketChannel channel;
   final String roomName;
+  final List<StreamSubscription> _subscriptions = [];
 
-  const NaneChat({
+  NaneChatRoom({
     @required this.channel,
     @required this.roomName,
   });
 
   @override
-  void close() {
+  void leaveRoom() {
     channel.sink.close();
+    for (final subscription in _subscriptions) {
+      subscription.cancel();
+    }
   }
 
   @override
   void listenToMessages(void Function(IncomingMessage message) onMessage) {
-    channel.stream.listen(
+    final subscription = channel.stream.listen(
       (str) => onMessage(
         IncomingMessage.fromJson(jsonDecode(str)),
       ),
     );
+    _subscriptions.add(subscription);
   }
 
   @override

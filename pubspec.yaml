@@ -40,10 +40,23 @@ dev_dependencies:
   json_serializable: ^3.4.1
   retrofit_generator: any
 
-flutter:
-  uses-material-design: true  # includes the Material Icons font
-
 flutter_intl:
   enabled: true
   class_name: S
   main_locale: en
+
+flutter:
+  uses-material-design: true  # includes the Material Icons font
+
+  fonts:
+    - family: Roboto
+      fonts:
+        -
+          asset: assets/fonts/Roboto/Roboto-Regular.ttf
+          weight: 400
+        -
+          asset: assets/fonts/Roboto/Roboto-Medium.ttf
+          weight: 500
+        -
+          asset: assets/fonts/Roboto/Roboto-Bold.ttf
+          weight: 700

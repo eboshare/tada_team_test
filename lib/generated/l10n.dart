@@ -62,6 +62,26 @@ class S {
       args: [],
     );
   }
+
+  /// `HH:mm`
+  String get chatListTileTime {
+    return Intl.message(
+      'HH:mm',
+      name: 'chatListTileTime',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter some text...`
+  String get chatTextFieldPlaceholder {
+    return Intl.message(
+      'Enter some text...',
+      name: 'chatTextFieldPlaceholder',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

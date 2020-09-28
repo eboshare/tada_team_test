@@ -13,7 +13,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final IChatFacade repository = getIt();
 
-  IChat room;
+  IChatRoom room;
 
   @override
   void initState() {

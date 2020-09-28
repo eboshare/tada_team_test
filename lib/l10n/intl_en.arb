@@ -1,7 +1,6 @@
 {
   "loginPageTitle": "Log In",
-  "loginFormUsername": "Username",
-  "loginFormRoom": "Room name",
+  "loginFormUsernamePlaceholder": "Username",
 
   "chatListPageTitle": "Rooms",
   "chatListTileTime": "HH:mm",

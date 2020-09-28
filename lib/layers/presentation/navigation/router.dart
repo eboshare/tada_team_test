@@ -7,8 +7,8 @@ import 'package:tada_team_test/layers/presentation/pages/login_page.dart';
 @MaterialAutoRouter(
   generateNavigationHelperExtension: true,
   routes: [
-    // MaterialRoute(page: LoginPage, initial: true),
-    MaterialRoute(page: ChatListPage, initial: true),
+    MaterialRoute(page: LoginPage, initial: true),
+    MaterialRoute(page: ChatListPage),
     MaterialRoute(page: ChatRoomPage),
   ],
 )

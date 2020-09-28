@@ -24,8 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "chatListPageTitle" : MessageLookupByLibrary.simpleMessage("Rooms"),
     "chatListTileTime" : MessageLookupByLibrary.simpleMessage("HH:mm"),
     "chatTextFieldPlaceholder" : MessageLookupByLibrary.simpleMessage("Enter some text..."),
-    "loginFormRoom" : MessageLookupByLibrary.simpleMessage("Room name"),
-    "loginFormUsername" : MessageLookupByLibrary.simpleMessage("Username"),
+    "loginFormUsernamePlaceholder" : MessageLookupByLibrary.simpleMessage("Username"),
     "loginPageTitle" : MessageLookupByLibrary.simpleMessage("Log In")
   };
 }

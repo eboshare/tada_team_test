@@ -38,36 +38,47 @@ class _ChatTextFieldState extends State<ChatTextField> {
   Widget build(BuildContext context) {
     final designSystem = DesignSystem.of(context);
     return Container(
-      color: designSystem.color.whiteLilac,
-      padding: const EdgeInsets.symmetric(
-        vertical: 27,
-        horizontal: 30,
-      ),
-      child: Stack(
-        children: [
-          EditableText(
-            controller: _controller,
-            focusNode: _focusNode,
-            backgroundCursorColor: designSystem.color.blue,
-            cursorColor: designSystem.color.blue,
-            style: designSystem.text.chatTextFieldInput,
-            onSubmitted: (text) {
-              widget.onSubmitted(text);
-              _controller.clear();
-            },
-          ),
-          ValueListenableBuilder<TextEditingValue>(
-            valueListenable: _controller,
-            builder: (context, value, __) {
-              return !value.text.isEmptyOrNull
-                  ? Container()
-                  : Text(
-                      S.of(context).chatTextFieldPlaceholder,
-                      style: designSystem.text.chatTextFieldPlaceholder,
-                    );
-            },
-          )
-        ],
+      padding: const EdgeInsets.all(10),
+      color: designSystem.color.white,
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          vertical: 27,
+          horizontal: 30,
+        ),
+        decoration: BoxDecoration(
+          color: designSystem.color.whiteLilac,
+          borderRadius: BorderRadius.circular(35),
+        ),
+        child: Stack(
+          children: [
+            EditableText(
+              controller: _controller,
+              focusNode: _focusNode,
+              backgroundCursorColor: designSystem.color.blue,
+              cursorColor: designSystem.color.blue,
+              style: designSystem.text.chatTextFieldInput,
+              onSubmitted: (text) {
+                if (widget.onSubmitted != null) {
+                  widget.onSubmitted(text);
+                }
+                _controller.clear();
+              },
+            ),
+            ValueListenableBuilder<TextEditingValue>(
+              valueListenable: _controller,
+              builder: (context, value, _) {
+                return Container(
+                  child: !value.text.isEmptyOrNull
+                      ? null
+                      : Text(
+                          S.of(context).chatTextFieldPlaceholder,
+                          style: designSystem.text.chatTextFieldPlaceholder,
+                        ),
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

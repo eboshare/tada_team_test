@@ -8,10 +8,7 @@ abstract class IChatRoomStore {
 
   LoadingStatus get status;
 
-  void enterRoom({
-    @required String roomName,
-    @required String username,
-  });
+  void enterRoom(String roomName);
 
   void leaveRoom();
 

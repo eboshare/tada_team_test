@@ -29,9 +29,19 @@ class IncomingMessageTile extends StatelessWidget {
             bottomRight: Radius.circular(35),
           ),
         ),
-        child: Text(
-          message.text,
-          style: designSystem.text.incomingMessageText,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              message.text,
+              style: designSystem.text.incomingMessageText,
+            ),
+            const SizedBox(height: 5),
+            Text(
+              message.sender.username,
+              style: designSystem.text.incomingMessageSender,
+            ),
+          ],
         ),
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
@@ -6,12 +7,11 @@ import 'package:tada_team_test/helper/constants.dart';
 import 'package:tada_team_test/layers/domain/entities/incoming_message.dart';
 import 'package:tada_team_test/layers/domain/entities/room.dart';
 import 'package:tada_team_test/layers/domain/stores/i_chat_room_store.dart';
+import 'package:tada_team_test/layers/domain/stores/i_global_store.dart';
 import 'package:tada_team_test/layers/presentation/components/chat_text_field.dart';
 import 'package:tada_team_test/layers/presentation/components/error_placeholder.dart';
 import 'package:tada_team_test/layers/presentation/components/incoming_message_tile.dart';
 import 'package:tada_team_test/layers/presentation/components/outgonig_message_tile.dart';
-
-const _username = 'CodeKiller228';
 
 class ChatRoomPage extends StatefulWidget {
   final Room room;
@@ -26,22 +26,23 @@ class ChatRoomPage extends StatefulWidget {
 }
 
 class _ChatRoomPageState extends State<ChatRoomPage> {
-  final IChatRoomStore store = getIt();
-
+  final IChatRoomStore pageStore = getIt();
+  final IGlobalStore globalStore = getIt();
+  
   ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController();
-    store.enterRoom(roomName: 'kozma', username: _username);
+    pageStore.enterRoom(widget.room.name);
   }
 
   @override
   void dispose() {
     super.dispose();
     _scrollController.dispose();
-    store.leaveRoom();
+    pageStore.leaveRoom();
   }
 
   @override
@@ -58,7 +59,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
             Expanded(
               child: Observer(
                 builder: (context) {
-                  switch (store.status) {
+                  switch (pageStore.status) {
                     case LoadingStatus.loading:
                       return const Center(
                         child: CircularProgressIndicator(),
@@ -68,12 +69,12 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                     case LoadingStatus.success:
                       return ListView.separated(
                         controller: _scrollController,
-                        itemCount: store.history.length,
+                        itemCount: pageStore.history.length,
                         padding: const EdgeInsets.all(10),
                         separatorBuilder: (_, __) => const SizedBox(height: 15),
                         itemBuilder: (context, index) {
-                          final message = store.history[index];
-                          if (_isMyMessage(_username, message)) {
+                          final message = pageStore.history[index];
+                          if (_isMyMessage(globalStore.username, message)) {
                             return OutgoingMessageTile(message: message);
                           } else {
                             return IncomingMessageTile(message: message);
@@ -81,13 +82,13 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                         },
                       );
                   }
-                  throw Exception('An unhandled LoadingStatus case: ${store.status}');
+                  throw Exception('An unhandled LoadingStatus case: ${pageStore.status}');
                 },
               ),
             ),
             ChatTextField(
               onSubmitted: (text) {
-                store.sendMessage(text);
+                pageStore.sendMessage(text);
                 _scrollController.jumpTo(
                   _scrollController.position.maxScrollExtent,
                 );

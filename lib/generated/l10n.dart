@@ -44,20 +44,10 @@ class S {
   }
 
   /// `Username`
-  String get loginFormUsername {
+  String get loginFormUsernamePlaceholder {
     return Intl.message(
       'Username',
-      name: 'loginFormUsername',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Room name`
-  String get loginFormRoom {
-    return Intl.message(
-      'Room name',
-      name: 'loginFormRoom',
+      name: 'loginFormUsernamePlaceholder',
       desc: '',
       args: [],
     );

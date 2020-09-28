@@ -49,7 +49,7 @@ class _ChatListPageState extends State<ChatListPage> {
                 separatorBuilder: (_, __) {
                   return Container(
                     height: 1,
-                    color: designSystem.color.gray,
+                    color: designSystem.color.lightGray,
                   );
                 },
                 itemBuilder: (context, index) {

@@ -28,6 +28,10 @@ class DesignSystemText {
   final TextStyle incomingMessageText;
   final TextStyle chatTextFieldInput;
   final TextStyle chatTextFieldPlaceholder;
+  final TextStyle loginFormPlaceholder;
+  final TextStyle loginPageTitle;
+  final TextStyle loginFormInput;
+  final TextStyle incomingMessageSender;
 
   const DesignSystemText({
     @required this.chatListTileUsername,
@@ -37,6 +41,10 @@ class DesignSystemText {
     @required this.incomingMessageText,
     @required this.chatTextFieldInput,
     @required this.chatTextFieldPlaceholder,
+    @required this.loginFormPlaceholder,
+    @required this.loginPageTitle,
+    @required this.loginFormInput,
+    @required this.incomingMessageSender,
   });
 }
 
@@ -50,6 +58,8 @@ class DesignSystemData {
   });
 
   factory DesignSystemData.main() {
+    const _loginFormFontSize = 22.0;
+
     final color = DesignSystemColor(
       blue: '#2675EC'.toColor(),
       white: '#FFFFFF'.toColor(),
@@ -94,6 +104,10 @@ class DesignSystemData {
           height: 1.56,
           color: color.white,
         ),
+        incomingMessageSender: roboto.copyWith(
+          fontSize: 10,
+          color: color.lightGray.withOpacity(0.6),
+        ),
         chatTextFieldInput: roboto.copyWith(
           fontWeight: FontWeight.w500,
           fontSize: 17,
@@ -105,6 +119,21 @@ class DesignSystemData {
           fontSize: 17,
           height: 21 / 17,
           color: color.gray,
+        ),
+        loginPageTitle: roboto.copyWith(
+          fontWeight: FontWeight.w700,
+          fontSize: 30,
+          color: color.blue,
+        ),
+        loginFormPlaceholder: roboto.copyWith(
+          fontWeight: FontWeight.w500,
+          fontSize: _loginFormFontSize,
+          color: color.gray,
+        ),
+        loginFormInput: roboto.copyWith(
+          fontWeight: FontWeight.w500,
+          fontSize: _loginFormFontSize,
+          color: color.black,
         ),
       ),
     );

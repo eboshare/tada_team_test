@@ -1,60 +1,41 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
+import 'package:tada_team_test/helper/extensions.dart';
 import 'package:tada_team_test/generated/l10n.dart';
 import 'package:tada_team_test/injection/injection.dart';
-import 'package:tada_team_test/layers/domain/repositories/i_chat_facade.dart';
-import 'package:tada_team_test/layers/domain/repositories/i_chat_service.dart';
+import 'package:tada_team_test/layers/domain/stores/i_global_store.dart';
+import 'package:tada_team_test/layers/presentation/components/login_form_text_field.dart';
+import 'package:tada_team_test/layers/presentation/design_system/design_system.dart';
 
-class LoginPage extends StatefulWidget {
-  @override
-  _LoginPageState createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  final IChatFacade repository = getIt();
-
-  IChatRoom room;
-
-  @override
-  void initState() {
-    super.initState();
-    room = repository.enterRoom(roomName: 'test_2020-09-27', username: 'NagibatorAnton');
-    room.listenToMessages(print);
-  }
+class LoginPage extends StatelessWidget {
+  final IGlobalStore store = getIt();
 
   @override
   Widget build(BuildContext context) {
-    final str = S.of(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(str.loginPageTitle),
-      ),
-      body: Center(
-        child: SizedBox(
-          width: 300,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                decoration: InputDecoration(
-                  labelText: S.of(context).loginFormUsername,
-                  border: const OutlineInputBorder(),
+      body: SafeArea(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 15,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  S.of(context).loginPageTitle,
+                  style: DesignSystem.of(context).text.loginPageTitle,
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  labelText: S.of(context).loginFormRoom,
-                  border: const OutlineInputBorder(),
+                const SizedBox(height: 30),
+                LoginFormTextField(
+                  onSubmitted: (username) {
+                    store.setUsername(username);
+                    ExtendedNavigator.of(context).pushChatListPage();
+                  },
                 ),
-              ),
-              RaisedButton(
-                onPressed: () => room.sendMessage('jija4'),
-                child: const Text('send message'),
-              )
-            ],
+              ],
+            ),
           ),
         ),
       ),

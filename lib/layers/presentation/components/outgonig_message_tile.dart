@@ -14,10 +14,8 @@ class OutgoingMessageTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final designSystem = DesignSystem.of(context);
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-        minWidth: 0,
-      ),
+    return Container(
+      alignment: Alignment.centerRight,
       child: Container(
         padding: const EdgeInsets.symmetric(
           vertical: 20,

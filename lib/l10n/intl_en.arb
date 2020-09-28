@@ -3,6 +3,7 @@
   "loginFormUsername": "Username",
   "loginFormRoom": "Room name",
 
+  "chatListPageTitle": "Rooms",
   "chatListTileTime": "HH:mm",
   "chatTextFieldPlaceholder": "Enter some text..."
 }

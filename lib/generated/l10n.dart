@@ -63,6 +63,16 @@ class S {
     );
   }
 
+  /// `Rooms`
+  String get chatListPageTitle {
+    return Intl.message(
+      'Rooms',
+      name: 'chatListPageTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `HH:mm`
   String get chatListTileTime {
     return Intl.message(

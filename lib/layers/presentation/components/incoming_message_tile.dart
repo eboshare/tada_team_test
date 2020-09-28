@@ -14,22 +14,25 @@ class IncomingMessageTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final designSystem = DesignSystem.of(context);
     return Container(
-      padding: const EdgeInsets.symmetric(
-        vertical: 20,
-        horizontal: 30,
-      ),
-      decoration: BoxDecoration(
-        color: designSystem.color.blue,
-        borderRadius: const BorderRadius.only(
-          bottomLeft: Radius.circular(10),
-          topLeft: Radius.circular(35),
-          topRight: Radius.circular(35),
-          bottomRight: Radius.circular(35),
+      alignment: Alignment.centerLeft,
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          vertical: 20,
+          horizontal: 30,
         ),
-      ),
-      child: Text(
-        message.text,
-        style: designSystem.text.incomingMessageText,
+        decoration: BoxDecoration(
+          color: designSystem.color.blue,
+          borderRadius: const BorderRadius.only(
+            bottomLeft: Radius.circular(10),
+            topLeft: Radius.circular(35),
+            topRight: Radius.circular(35),
+            bottomRight: Radius.circular(35),
+          ),
+        ),
+        child: Text(
+          message.text,
+          style: designSystem.text.incomingMessageText,
+        ),
       ),
     );
   }

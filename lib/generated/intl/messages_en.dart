@@ -21,6 +21,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "chatListPageTitle" : MessageLookupByLibrary.simpleMessage("Rooms"),
     "chatListTileTime" : MessageLookupByLibrary.simpleMessage("HH:mm"),
     "chatTextFieldPlaceholder" : MessageLookupByLibrary.simpleMessage("Enter some text..."),
     "loginFormRoom" : MessageLookupByLibrary.simpleMessage("Room name"),

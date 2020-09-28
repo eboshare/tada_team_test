@@ -28,15 +28,19 @@ class ChatRoomPage extends StatefulWidget {
 class _ChatRoomPageState extends State<ChatRoomPage> {
   final IChatRoomStore store = getIt();
 
+  ScrollController _scrollController;
+
   @override
   void initState() {
     super.initState();
+    _scrollController = ScrollController();
     store.enterRoom(roomName: 'kozma', username: _username);
   }
 
   @override
   void dispose() {
     super.dispose();
+    _scrollController.dispose();
     store.leaveRoom();
   }
 
@@ -63,6 +67,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                       return ErrorPlaceholder();
                     case LoadingStatus.success:
                       return ListView.separated(
+                        controller: _scrollController,
                         itemCount: store.history.length,
                         padding: const EdgeInsets.all(10),
                         separatorBuilder: (_, __) => const SizedBox(height: 15),
@@ -80,12 +85,13 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                 },
               ),
             ),
-            Container(
-              child: ChatTextField(
-                onSubmitted: (text) {
-                  store.sendMessage(text);
-                },
-              ),
+            ChatTextField(
+              onSubmitted: (text) {
+                store.sendMessage(text);
+                _scrollController.jumpTo(
+                  _scrollController.position.maxScrollExtent,
+                );
+              },
             )
           ],
         ),

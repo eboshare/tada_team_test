@@ -1,11 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:tada_team_test/generated/l10n.dart';
 
 import 'package:tada_team_test/helper/constants.dart';
 import 'package:tada_team_test/helper/extensions.dart';
 import 'package:tada_team_test/injection/injection.dart';
 import 'package:tada_team_test/layers/domain/stores/i_chat_list_store.dart';
+import 'package:tada_team_test/layers/presentation/app_widget.dart';
 import 'package:tada_team_test/layers/presentation/components/chat_list_tile.dart';
 import 'package:tada_team_test/layers/presentation/components/error_placeholder.dart';
 import 'package:tada_team_test/layers/presentation/components/tappable.dart';
@@ -29,6 +31,9 @@ class _ChatListPageState extends State<ChatListPage> {
   Widget build(BuildContext context) {
     final designSystem = DesignSystem.of(context);
     return Scaffold(
+      appBar: AppBar(
+        title: Text(S.of(context).chatListPageTitle),
+      ),
       body: Observer(
         builder: (context) {
           switch (store.status) {

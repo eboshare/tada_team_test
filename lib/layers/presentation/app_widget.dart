@@ -40,7 +40,7 @@ class _Setup extends StatelessWidget {
             backgroundColor: designSystem.color.white,
           ),
         ),
-        builder: ExtendedNavigator.builder(
+        builder: ExtendedNavigator.builder<Router>(
           router: Router(),
         ),
         supportedLocales: S.delegate.supportedLocales,

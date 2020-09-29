@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:tada_team_test/helper/extensions.dart';
+import 'package:tada_team_test/utils/extensions.dart';
 
 part 'design_system_data.freezed.dart';
 

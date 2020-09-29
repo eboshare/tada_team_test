@@ -4,8 +4,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:tada_team_test/generated/l10n.dart';
 
 import 'package:tada_team_test/injection/injection.dart';
-import 'package:tada_team_test/helper/extensions.dart';
-import 'package:tada_team_test/helper/constants.dart';
+import 'package:tada_team_test/utils/extensions.dart';
+import 'package:tada_team_test/utils/enums.dart';
 import 'package:tada_team_test/layers/domain/entities/incoming_message/incoming_message.dart';
 import 'package:tada_team_test/layers/domain/entities/room/room.dart';
 import 'package:tada_team_test/layers/domain/filtering/chat_room_filtering.dart';
@@ -85,8 +85,10 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                         controller: _scrollController,
                         itemCount: pageStore.history.length,
                         separatorBuilder: (_, __) => const SizedBox(height: 15),
+                        reverse: true,
                         itemBuilder: (context, index) {
-                          final message = pageStore.history[index];
+                          final reversedIndex = pageStore.history.length - index - 1;
+                          final message = pageStore.history[reversedIndex];
                           if (isMyMessage(globalStore.username, message)) {
                             return OutgoingMessageTile(message: message);
                           } else {
@@ -102,9 +104,13 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
             ChatTextField(
               onSubmitted: (text) {
                 pageStore.sendMessage(text);
-                // _scrollController.jumpTo(
-                //   _scrollController.position.maxScrollExtent,
-                // );
+                if (!pageStore.history.isEmptyOrNull) {
+                  _scrollController.animateTo(
+                    0,
+                    duration: const Duration(milliseconds: 600),
+                    curve: Curves.ease,
+                  );
+                }
               },
             )
           ],

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:tada_team_test/generated/l10n.dart';
-import 'package:tada_team_test/helper/extensions.dart';
+import 'package:tada_team_test/utils/extensions.dart';
 import 'package:tada_team_test/layers/presentation/design_system/design_system.dart';
 
 class ATextField extends StatefulWidget {
@@ -29,11 +29,15 @@ class ATextField extends StatefulWidget {
 }
 
 class _ATextFieldState extends State<ATextField> {
+  final _editableTextKey = GlobalKey<EditableTextState>();
+
   @override
   Widget build(BuildContext context) {
     final designSystem = DesignSystem.of(context);
     return GestureDetector(
-      onTap: () => widget.focusNode.requestFocus(),
+      onTap: () {
+        _editableTextKey.currentState?.requestKeyboard();
+      },
       child: Container(
         padding: const EdgeInsets.all(10),
         color: designSystem.color.white,
@@ -52,6 +56,7 @@ class _ATextFieldState extends State<ATextField> {
             alignment: widget.placeholderAlignment,
             children: [
               EditableText(
+                key: _editableTextKey,
                 controller: widget.controller,
                 focusNode: widget.focusNode,
                 onSubmitted: widget.onSubmitted,

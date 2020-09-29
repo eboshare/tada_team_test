@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import 'package:tada_team_test/helper/constants.dart';
+import 'package:tada_team_test/utils/enums.dart';
 import 'package:tada_team_test/generated/l10n.dart';
-import 'package:tada_team_test/helper/extensions.dart';
+import 'package:tada_team_test/utils/extensions.dart';
 import 'package:tada_team_test/injection/injection.dart';
 import 'package:tada_team_test/layers/domain/stores/i_chat_list_store.dart';
 import 'package:tada_team_test/layers/presentation/app_widget.dart';

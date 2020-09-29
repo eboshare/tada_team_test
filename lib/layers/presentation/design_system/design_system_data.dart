@@ -38,6 +38,7 @@ abstract class DesignSystemText with _$DesignSystemText {
     @required TextStyle loginPageTitle,
     @required TextStyle loginFormInput,
     @required TextStyle incomingMessageSender,
+    @required TextStyle infoMessage,
   }) = _DesignSystemText;
 }
 
@@ -132,6 +133,12 @@ class DesignSystemData {
           fontWeight: FontWeight.w500,
           fontSize: _loginFormFontSize,
           color: color.black,
+        ),
+        infoMessage: roboto.copyWith(
+          fontWeight: FontWeight.w500,
+          fontSize: 16,
+          height: 19 / 16,
+          color: color.gray,
         ),
       ),
     );

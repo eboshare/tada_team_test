@@ -116,7 +116,6 @@ class _TappableState extends State<Tappable> with SingleTickerProviderStateMixin
         if (mounted && wasHeldDown != _buttonHeldDown) {
           _animate();
         }
-        ;
       },
     );
   }

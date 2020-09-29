@@ -73,6 +73,16 @@ class S {
     );
   }
 
+  /// `Can't load chat list, sorry.`
+  String get chatListUnableToLoad {
+    return Intl.message(
+      'Can\'t load chat list, sorry.',
+      name: 'chatListUnableToLoad',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Enter some text...`
   String get chatTextFieldPlaceholder {
     return Intl.message(
@@ -88,6 +98,16 @@ class S {
     return Intl.message(
       'Chat history is empty',
       name: 'emptyChatHistory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Can't load chat history,\ntry again later.`
+  String get chatRoomUnableToLoadHistory {
+    return Intl.message(
+      'Can\'t load chat history,\ntry again later.',
+      name: 'chatRoomUnableToLoadHistory',
       desc: '',
       args: [],
     );

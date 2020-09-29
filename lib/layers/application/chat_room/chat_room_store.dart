@@ -73,6 +73,7 @@ abstract class ChatRoomStoreBase with Store implements IChatRoomStore {
         ..._history ?? [],
         message,
       ];
+      _historyStatus = HistoryStatus.success;
     });
     loadMessageHistory(roomName);
   }

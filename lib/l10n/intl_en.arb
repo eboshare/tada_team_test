@@ -4,8 +4,11 @@
 
   "chatListPageTitle": "Rooms",
   "chatListTileTime": "HH:mm",
+  "chatListUnableToLoad": "Can't load chat list, sorry.",
   "chatTextFieldPlaceholder": "Enter some text...",
+
   "emptyChatHistory": "Chat history is empty",
+  "chatRoomUnableToLoadHistory": "Can't load chat history,\ntry again later.",
 
   "newChatRoomPageTitle": "Create Chat Room",
   "newChatRoomFormPlaceholder": "New chat room name"

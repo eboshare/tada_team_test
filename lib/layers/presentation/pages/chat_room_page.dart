@@ -15,6 +15,7 @@ import 'package:tada_team_test/layers/presentation/components/chat_text_field.da
 import 'package:tada_team_test/layers/presentation/components/error_placeholder.dart';
 import 'package:tada_team_test/layers/presentation/components/incoming_message_tile.dart';
 import 'package:tada_team_test/layers/presentation/components/outgoing_message_tile.dart';
+import 'package:tada_team_test/layers/presentation/design_system/design_system.dart';
 
 class ChatRoomPage extends StatefulWidget {
   final Room room;
@@ -66,11 +67,16 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                         child: CircularProgressIndicator(),
                       );
                     case HistoryStatus.error:
-                      return ErrorPlaceholder();
+                      return Center(
+                        child: ErrorPlaceholder(
+                          message: S.of(context).chatRoomUnableToLoadHistory,
+                        ),
+                      );
                     case HistoryStatus.roomNotFound:
                       return Center(
                         child: Text(
                           S.of(context).emptyChatHistory,
+                          style: DesignSystem.of(context).text.infoMessage,
                         ),
                       );
                     case HistoryStatus.success:
@@ -96,9 +102,9 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
             ChatTextField(
               onSubmitted: (text) {
                 pageStore.sendMessage(text);
-                _scrollController.jumpTo(
-                  _scrollController.position.maxScrollExtent,
-                );
+                // _scrollController.jumpTo(
+                //   _scrollController.position.maxScrollExtent,
+                // );
               },
             )
           ],

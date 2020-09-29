@@ -25,7 +25,7 @@ class OutgoingMessageTile extends StatelessWidget {
         decoration: BoxDecoration(
           color: designSystem.color.lightGray,
           borderRadius: BorderRadius.only(
-            topRight: Radius.circular(10),
+            topRight: const Radius.circular(10),
             topLeft: bigRadius,
             bottomLeft: bigRadius,
             bottomRight: bigRadius,

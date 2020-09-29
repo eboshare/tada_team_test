@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:tada_team_test/helper/constants.dart';
 import 'package:tada_team_test/generated/l10n.dart';
@@ -22,10 +23,21 @@ class ChatListPage extends StatefulWidget {
 class _ChatListPageState extends State<ChatListPage> {
   final IChatListStore store = getIt();
 
+  RefreshController _refreshController;
+
   @override
   void initState() {
     super.initState();
+    store.init();
     store.loadRooms();
+    _refreshController = RefreshController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    store.close();
+    _refreshController.dispose();
   }
 
   @override
@@ -47,24 +59,37 @@ class _ChatListPageState extends State<ChatListPage> {
                 child: CircularProgressIndicator(),
               );
             case LoadingStatus.error:
-              return ErrorPlaceholder();
+              return Center(
+                child: ErrorPlaceholder(
+                  message: S.of(context).chatListUnableToLoad,
+                ),
+              );
             case LoadingStatus.success:
-              return ListView.separated(
-                itemCount: store.rooms.length,
-                separatorBuilder: (_, __) {
-                  return Container(
-                    height: 1,
-                    color: designSystem.color.lightGray,
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                  );
+              return SmartRefresher(
+                controller: _refreshController,
+                onRefresh: () {
+                  store.refreshRooms();
+                  _refreshController.refreshCompleted();
                 },
-                itemBuilder: (context, index) {
-                  final room = store.rooms[index];
-                  return Tappable(
-                    onTap: () => ExtendedNavigator.of(context).pushChatRoomPage(room: room),
-                    child: ChatListTile(room: room),
-                  );
-                },
+                enablePullDown: true,
+                // enablePullUp: true,
+                child: ListView.separated(
+                  itemCount: store.rooms.length,
+                  separatorBuilder: (_, __) {
+                    return Container(
+                      height: 1,
+                      color: designSystem.color.lightGray,
+                      margin: const EdgeInsets.symmetric(horizontal: 20),
+                    );
+                  },
+                  itemBuilder: (context, index) {
+                    final room = store.rooms[index];
+                    return Tappable(
+                      onTap: () => ExtendedNavigator.of(context).pushChatRoomPage(room: room),
+                      child: ChatListTile(room: room),
+                    );
+                  },
+                ),
               );
           }
           throw Exception('An unhandled LoadingStatus case: ${store.status}');

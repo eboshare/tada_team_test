@@ -7,6 +7,7 @@ import 'package:tada_team_test/layers/domain/entities/room/room.dart';
 import 'package:tada_team_test/layers/domain/repositories/i_chat_client.dart';
 import 'package:tada_team_test/layers/domain/repositories/i_chat_facade.dart';
 import 'package:tada_team_test/layers/domain/stores/i_chat_list_store.dart';
+import 'package:tada_team_test/layers/domain/stores/i_global_store.dart';
 
 part 'chat_list_store.g.dart';
 
@@ -15,7 +16,19 @@ class ChatListPageStore = ChatListPageStoreBase with _$ChatListPageStore;
 
 abstract class ChatListPageStoreBase with Store implements IChatListStore {
   final IChatFacade _facade;
-  ChatListPageStoreBase(this._facade);
+  final IGlobalStore _globalStore;
+
+  ChatListPageStoreBase(this._facade, this._globalStore);
+
+  @override
+  void init() {
+    _facade.init(_globalStore.username);
+  }
+
+  @override
+  void close() {
+    _facade.close();
+  }
 
   @observable
   List<Room> _rooms;
@@ -36,11 +49,26 @@ abstract class ChatListPageStoreBase with Store implements IChatListStore {
   Future<void> loadRooms() async {
     _status = LoadingStatus.loading;
     await _facade.getRoomList()
-      ..fold((_) {
-        _status = LoadingStatus.error;
-      }, (rooms) {
-        _rooms = rooms;
-        _status = LoadingStatus.success;
-      });
+      ..fold(
+        (_) {
+          _status = LoadingStatus.error;
+        },
+        (rooms) {
+          _rooms = rooms;
+          _status = LoadingStatus.success;
+        },
+      );
+  }
+
+  @override
+  @action
+  Future<void> refreshRooms() async {
+    await _facade.getRoomList()
+      ..fold(
+        (_) => null,
+        (rooms) => {
+          _rooms = rooms,
+        },
+      );
   }
 }

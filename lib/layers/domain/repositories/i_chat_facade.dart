@@ -10,6 +10,10 @@ import 'package:tada_team_test/layers/domain/repositories/i_chat_client.dart';
 import 'package:tada_team_test/layers/domain/repositories/i_chat_service.dart';
 
 abstract class IChatFacade {
+  void init(String username);
+
+  void close();
+
   IChatRoom enterRoom({String roomName, String username});
 
   Future<Either<SettingsFailure, Settings>> getSettings();

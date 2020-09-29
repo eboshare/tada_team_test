@@ -1,11 +1,12 @@
 analyzer:
   exclude:
-    - lib/generated/**/*.dart
-    - lib/**/*.g.dart
-    - lib/**/*.gr.dart
-    - lib/**/*.freezed.dart
-    - lib/**/*.iconfig.dart
-    - lib/**/*.config.dart
+    - 'lib/generated/**/*.dart'
+    - 'lib/generated/*.dart'
+    - 'lib/**/*.g.dart'
+    - 'lib/**/*.gr.dart'
+    - 'lib/**/*.freezed.dart'
+    - 'lib/**/*.iconfig.dart'
+    - 'lib/**/*.config.dart'
 
   errors:
     missing_required_param: error

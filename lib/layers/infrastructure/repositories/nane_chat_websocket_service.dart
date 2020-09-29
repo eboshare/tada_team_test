@@ -18,6 +18,11 @@ final uuid = Uuid();
 
 @Singleton(as: IChatService)
 class NaneChatService implements IChatService {
+  final Map<String, List<OnMessage>> _listeners = {};
+
+  IOWebSocketChannel _channel;
+  StreamSubscription _subscription;
+
   String _constructWebSocketUri({String username}) {
     return Uri(
       scheme: 'wss',
@@ -27,54 +32,89 @@ class NaneChatService implements IChatService {
     ).toString();
   }
 
+  void _listenManager(data) {
+    final message = IncomingMessage.fromJson(jsonDecode(data));
+    if (_listeners.containsKey(message.roomName)) {
+      for (final listener in _listeners[message.roomName]) {
+        listener(message);
+      }
+    }
+  }
+
+  @override
+  void init(String username) {
+    _channel = IOWebSocketChannel.connect(
+      _constructWebSocketUri(username: username),
+    );
+    _subscription = _channel.stream.listen(_listenManager);
+  }
+
+  @override
+  void close() {
+    _channel.sink.close();
+    _subscription.cancel();
+  }
+
   @override
   IChatRoom enterRoom({String roomName, String username}) {
-    return NaneChatRoom(
-      roomName: roomName,
-      channel: IOWebSocketChannel.connect(
-        _constructWebSocketUri(username: username),
-      ),
-    );
+    return NaneChatRoom(roomName: roomName, service: this);
+  }
+
+  @override
+  void leaveRoom(String roomName) {
+    _listeners.remove(roomName);
+  }
+
+  @override
+  void sendMessage(OutgoingMessage message) {
+    final data = jsonEncode(message.toJson());
+    _channel.sink.add(data);
+  }
+
+  @override
+  void addListener(String roomName, OnMessage onMessage) {
+    if (!_listeners.containsKey(roomName)) {
+      _listeners[roomName] = [onMessage];
+    } else {
+      _listeners[roomName].add(onMessage);
+    }
+  }
+
+  @override
+  void removeListener(String roomName, OnMessage onMessage) {
+    if (_listeners.containsKey(roomName)) {
+      _listeners[roomName].removeWhere((listener) => listener == onMessage);
+    }
   }
 }
 
 class NaneChatRoom implements IChatRoom {
   final String roomName;
-  final IOWebSocketChannel channel;
-  final List<StreamSubscription> _subscriptions = [];
+  final NaneChatService service;
 
   NaneChatRoom({
-    @required this.channel,
+    @required this.service,
     @required this.roomName,
   });
 
   @override
-  void leaveRoom() {
-    channel.sink.close();
-    for (final subscription in _subscriptions) {
-      subscription.cancel();
-    }
+  void listenToMessages(OnMessage onMessage) {
+    service.addListener(roomName, onMessage);
   }
 
   @override
-  void listenToMessages(void Function(IncomingMessage message) onMessage) {
-    final subscription = channel.stream.listen(
-      (str) => onMessage(
-        IncomingMessage.fromJson(jsonDecode(str)),
-      ),
-    );
-    _subscriptions.add(subscription);
+  void leaveRoom() {
+    service.leaveRoom(roomName);
   }
 
   @override
   void sendMessage(String text) {
-    final data = jsonEncode(
+    service.sendMessage(
       OutgoingMessage(
         id: uuid.v4(),
         roomName: roomName,
         text: text,
-      ).toJson(),
+      ),
     );
-    channel.sink.add(data);
   }
 }

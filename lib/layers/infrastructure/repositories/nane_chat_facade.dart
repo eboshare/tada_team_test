@@ -42,7 +42,7 @@ class NaneChatFacade implements IChatFacade {
       final response = await _chatClient.getMessageHistory(roomName);
       return Right(response.result);
     } on DioError catch (error) {
-      if (error.response.statusCode == HttpStatus.notFound) {
+      if (error?.response?.statusCode == HttpStatus.notFound) {
         return Left(ChatHistoryFailure.roomNotFound(error.response.data));
       } else {
         return Left(ChatHistoryFailure.unknown());

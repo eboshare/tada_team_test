@@ -23,6 +23,7 @@ class ErrorPlaceholder extends StatelessWidget {
         const SizedBox(height: 25),
         Text(
           message,
+          textAlign: TextAlign.center,
           style: designSystem.text.infoMessage,
         )
       ],

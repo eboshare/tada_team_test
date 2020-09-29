@@ -1,32 +1,62 @@
-import 'package:injectable/injectable.dart';
+import 'dart:io';
 
-import 'package:tada_team_test/layers/domain/entities/incoming_message.dart';
-import 'package:tada_team_test/layers/domain/entities/room.dart';
-import 'package:tada_team_test/layers/domain/entities/settings.dart';
+import 'package:dartz/dartz.dart';
+import 'package:injectable/injectable.dart';
+import 'package:dio/dio.dart';
+
+import 'package:tada_team_test/layers/domain/entities/incoming_message/incoming_message.dart';
+import 'package:tada_team_test/layers/domain/entities/room/room.dart';
+import 'package:tada_team_test/layers/domain/entities/settings/settings.dart';
+import 'package:tada_team_test/layers/domain/failures/history_failure.dart';
+import 'package:tada_team_test/layers/domain/failures/room_list_failure.dart';
+import 'package:tada_team_test/layers/domain/failures/settings_failure.dart';
 import 'package:tada_team_test/layers/domain/repositories/i_chat_client.dart';
 import 'package:tada_team_test/layers/domain/repositories/i_chat_facade.dart';
 import 'package:tada_team_test/layers/domain/repositories/i_chat_service.dart';
 
 @Singleton(as: IChatFacade)
 class NaneChatFacade implements IChatFacade {
-  final IChatClient chatClient;
-  final IChatService chatProvider;
+  final IChatClient _chatClient;
+  final IChatService _chatService;
 
-  const NaneChatFacade(this.chatClient, this.chatProvider);
+  const NaneChatFacade(this._chatClient, this._chatService);
 
   @override
   IChatRoom enterRoom({String roomName, String username}) {
-    return chatProvider.enterRoom(roomName: roomName, username: username);
+    return _chatService.enterRoom(roomName: roomName, username: username);
   }
 
   @override
-  Future<IncomingMessageListResponse> getMessageHistory(String roomName) {
-    return chatClient.getMessageHistory(roomName);
+  Future<Either<ChatHistoryFailure, List<IncomingMessage>>> getMessageHistory(String roomName) async {
+    try {
+      final response = await _chatClient.getMessageHistory(roomName);
+      return Right(response.result);
+    } on DioError catch (error) {
+      if (error.response.statusCode == HttpStatus.notFound) {
+        return Left(ChatHistoryFailure.roomNotFound(error.response.data));
+      } else {
+        return Left(ChatHistoryFailure.unknown());
+      }
+    }
   }
 
   @override
-  Future<RoomListResponse> getRoomList() => chatClient.getRoomList();
+  Future<Either<RoomListFailure, List<Room>>> getRoomList() async {
+    try {
+      final response = await _chatClient.getRoomList();
+      return Right(response.result);
+    } on DioError catch (_) {
+      return Left(RoomListFailure.unknown());
+    }
+  }
 
   @override
-  Future<SettingsResponse> getSettings() => chatClient.getSettings();
+  Future<Either<SettingsFailure, Settings>> getSettings() async {
+    try {
+      final response = await _chatClient.getSettings();
+      return Right(response.result);
+    } on DioError catch (_) {
+      return Left(SettingsFailure.unknown());
+    }
+  }
 }

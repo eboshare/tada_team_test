@@ -9,10 +9,10 @@ import 'package:uuid/uuid.dart';
 import 'package:web_socket_channel/io.dart';
 
 import 'package:tada_team_test/layers/domain/repositories/i_chat_service.dart';
-import 'package:tada_team_test/layers/domain/entities/outgoing_message.dart';
-import 'package:tada_team_test/layers/domain/entities/incoming_message.dart';
-import 'package:tada_team_test/layers/domain/entities/room.dart';
-import 'package:tada_team_test/layers/domain/entities/settings.dart';
+import 'package:tada_team_test/layers/domain/entities/outgoing_message/outgoing_message.dart';
+import 'package:tada_team_test/layers/domain/entities/incoming_message/incoming_message.dart';
+import 'package:tada_team_test/layers/domain/entities/room/room.dart';
+import 'package:tada_team_test/layers/domain/entities/settings/settings.dart';
 
 final uuid = Uuid();
 
@@ -39,8 +39,8 @@ class NaneChatService implements IChatService {
 }
 
 class NaneChatRoom implements IChatRoom {
-  final IOWebSocketChannel channel;
   final String roomName;
+  final IOWebSocketChannel channel;
   final List<StreamSubscription> _subscriptions = [];
 
   NaneChatRoom({
@@ -71,7 +71,7 @@ class NaneChatRoom implements IChatRoom {
     final data = jsonEncode(
       OutgoingMessage(
         id: uuid.v4(),
-        room: roomName,
+        roomName: roomName,
         text: text,
       ).toJson(),
     );

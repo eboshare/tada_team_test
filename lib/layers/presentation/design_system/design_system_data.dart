@@ -1,59 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:tada_team_test/helper/extensions.dart';
 
-class DesignDimension {
-  final double bubbleRadius;
+part 'design_system_data.freezed.dart';
 
-  const DesignDimension({
-    @required this.bubbleRadius,
-  });
+@freezed
+abstract class DesignDimension with _$DesignDimension {
+  factory DesignDimension({
+    @required double bubbleRadius,
+  }) = _DesignDimension;
 }
 
-class DesignSystemColor {
-  final Color blue;
-  final Color black;
-  final Color gray;
-  final Color lightGray;
-  final Color white;
-  final Color whiteLilac;
-
-  const DesignSystemColor({
-    @required this.blue,
-    @required this.black,
-    @required this.gray,
-    @required this.lightGray,
-    @required this.white,
-    @required this.whiteLilac,
-  });
+@freezed
+abstract class DesignSystemColor with _$DesignSystemColor {
+  factory DesignSystemColor({
+    @required Color blue,
+    @required Color black,
+    @required Color gray,
+    @required Color lightGray,
+    @required Color white,
+    @required Color whiteLilac,
+  }) = _DesignSystemColor;
 }
 
-class DesignSystemText {
-  final TextStyle chatListTileUsername;
-  final TextStyle chatListTileLastMessageText;
-  final TextStyle chatListTileLastMessageTime;
-  final TextStyle outgoingMessageText;
-  final TextStyle incomingMessageText;
-  final TextStyle chatTextFieldInput;
-  final TextStyle chatTextFieldPlaceholder;
-  final TextStyle loginFormPlaceholder;
-  final TextStyle loginPageTitle;
-  final TextStyle loginFormInput;
-  final TextStyle incomingMessageSender;
-
-  const DesignSystemText({
-    @required this.chatListTileUsername,
-    @required this.chatListTileLastMessageText,
-    @required this.chatListTileLastMessageTime,
-    @required this.outgoingMessageText,
-    @required this.incomingMessageText,
-    @required this.chatTextFieldInput,
-    @required this.chatTextFieldPlaceholder,
-    @required this.loginFormPlaceholder,
-    @required this.loginPageTitle,
-    @required this.loginFormInput,
-    @required this.incomingMessageSender,
-  });
+@freezed
+abstract class DesignSystemText with _$DesignSystemText {
+  factory DesignSystemText({
+    @required TextStyle chatListTileUsername,
+    @required TextStyle chatListTileLastMessageText,
+    @required TextStyle chatListTileLastMessageTime,
+    @required TextStyle outgoingMessageText,
+    @required TextStyle incomingMessageText,
+    @required TextStyle chatTextFieldInput,
+    @required TextStyle chatTextFieldPlaceholder,
+    @required TextStyle loginFormPlaceholder,
+    @required TextStyle loginPageTitle,
+    @required TextStyle loginFormInput,
+    @required TextStyle incomingMessageSender,
+  }) = _DesignSystemText;
 }
 
 class DesignSystemData {
@@ -83,7 +68,7 @@ class DesignSystemData {
 
     return DesignSystemData(
       color: color,
-      dimension: const DesignDimension(
+      dimension: DesignDimension(
         bubbleRadius: 35,
       ),
       text: DesignSystemText(

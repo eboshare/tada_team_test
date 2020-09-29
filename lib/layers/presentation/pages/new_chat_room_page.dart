@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:tada_team_test/generated/l10n.dart';
 import 'package:tada_team_test/helper/extensions.dart';
-import 'package:tada_team_test/layers/domain/entities/room.dart';
+import 'package:tada_team_test/layers/domain/entities/room/room.dart';
 import 'package:tada_team_test/layers/presentation/components/a/text_field.dart';
 import 'package:tada_team_test/layers/presentation/design_system/design_system.dart';
 

@@ -3,8 +3,9 @@ import 'package:mobx/mobx.dart';
 
 import 'package:tada_team_test/helper/constants.dart';
 import 'package:tada_team_test/helper/store_helpers.dart';
-import 'package:tada_team_test/layers/domain/entities/room.dart';
+import 'package:tada_team_test/layers/domain/entities/room/room.dart';
 import 'package:tada_team_test/layers/domain/repositories/i_chat_client.dart';
+import 'package:tada_team_test/layers/domain/repositories/i_chat_facade.dart';
 import 'package:tada_team_test/layers/domain/stores/i_chat_list_store.dart';
 
 part 'chat_list_store.g.dart';
@@ -13,11 +14,14 @@ part 'chat_list_store.g.dart';
 class ChatListPageStore = ChatListPageStoreBase with _$ChatListPageStore;
 
 abstract class ChatListPageStoreBase with Store implements IChatListStore {
-  final IChatClient client;
-  ChatListPageStoreBase(this.client);
+  final IChatFacade _facade;
+  ChatListPageStoreBase(this._facade);
 
   @observable
   List<Room> _rooms;
+
+  @observable
+  LoadingStatus _status;
 
   @override
   @computed
@@ -25,20 +29,18 @@ abstract class ChatListPageStoreBase with Store implements IChatListStore {
 
   @override
   @computed
-  LoadingStatus get status => mapObservableFutureToStatus(_loadRoomsFuture);
-
-  @observable
-  ObservableFuture<void> _loadRoomsFuture;
-
-  @action
-  Future<void> _loadRooms() async {
-    final response = await client.getRoomList();
-    _rooms = response.result;
-  }
+  LoadingStatus get status => _status;
 
   @override
   @action
-  void loadRooms() {
-    _loadRoomsFuture = ObservableFuture(_loadRooms());
+  Future<void> loadRooms() async {
+    _status = LoadingStatus.loading;
+    await _facade.getRoomList()
+      ..fold((_) {
+        _status = LoadingStatus.error;
+      }, (rooms) {
+        _rooms = rooms;
+        _status = LoadingStatus.success;
+      });
   }
 }

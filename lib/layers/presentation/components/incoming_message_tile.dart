@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tada_team_test/layers/domain/entities/incoming_message.dart';
+import 'package:tada_team_test/layers/domain/entities/incoming_message/incoming_message.dart';
 import 'package:tada_team_test/layers/presentation/design_system/design_system.dart';
 
 class IncomingMessageTile extends StatelessWidget {

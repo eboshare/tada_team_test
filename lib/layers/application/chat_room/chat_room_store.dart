@@ -6,8 +6,8 @@ import 'package:dio/dio.dart';
 import 'package:tada_team_test/helper/extensions.dart';
 import 'package:tada_team_test/helper/constants.dart';
 import 'package:tada_team_test/helper/store_helpers.dart';
-import 'package:tada_team_test/layers/domain/entities/incoming_message.dart';
-import 'package:tada_team_test/layers/domain/entities/room.dart';
+import 'package:tada_team_test/layers/domain/entities/incoming_message/incoming_message.dart';
+import 'package:tada_team_test/layers/domain/entities/room/room.dart';
 import 'package:tada_team_test/layers/domain/repositories/i_chat_client.dart';
 import 'package:tada_team_test/layers/domain/repositories/i_chat_facade.dart';
 import 'package:tada_team_test/layers/domain/repositories/i_chat_service.dart';
@@ -21,10 +21,10 @@ part 'chat_room_store.g.dart';
 class ChatRoomStore = ChatRoomStoreBase with _$ChatRoomStore;
 
 abstract class ChatRoomStoreBase with Store implements IChatRoomStore {
-  final IChatFacade facade;
-  final IGlobalStore globalStore;
-  
-  ChatRoomStoreBase(this.facade, this.globalStore);
+  final IChatFacade _facade;
+  final IGlobalStore _globalStore;
+
+  ChatRoomStoreBase(this._facade, this._globalStore);
 
   @observable
   IChatRoom _chatRoom;
@@ -36,39 +36,43 @@ abstract class ChatRoomStoreBase with Store implements IChatRoomStore {
   @computed
   List<IncomingMessage> get history => _history;
 
+  @observable
+  HistoryStatus _historyStatus;
+
   @override
   @computed
-  LoadingStatus get status => mapObservableFutureToStatus(_loadHistoryFuture);
-
-  @observable
-  ObservableFuture<void> _loadHistoryFuture;
-
-  @action
-  Future<void> _loadMessageHistory(String roomName) async {
-    try {
-      final response = await facade.getMessageHistory(roomName);
-      if (!response.result.isEmptyOrNull) {
-        _history = response.result;
-      }
-    } on DioError catch (_) {
-      _history = [];
-    }
-  }
+  HistoryStatus get historyStatus => _historyStatus;
 
   @override
   @action
-  void loadMessageHistory(String roomName) {
-    _loadHistoryFuture = ObservableFuture(_loadMessageHistory(roomName));
+  Future<void> loadMessageHistory(String roomName) async {
+    _historyStatus = HistoryStatus.loading;
+    await _facade.getMessageHistory(roomName)
+      ..fold(
+        (failure) {
+          failure.when(
+            unknown: () => _historyStatus = HistoryStatus.error,
+            roomNotFound: (_) => _historyStatus = HistoryStatus.roomNotFound,
+          );
+        },
+        (messages) {
+          _history = messages;
+          _historyStatus = HistoryStatus.success;
+        },
+      );
   }
 
   @override
   void enterRoom(String roomName) {
-    _chatRoom = facade.enterRoom(
+    _chatRoom = _facade.enterRoom(
       roomName: roomName,
-      username: globalStore.username,
+      username: _globalStore.username,
     );
     _chatRoom.listenToMessages((message) {
-      _history = [..._history, message];
+      _history = [
+        ..._history ?? [],
+        message,
+      ];
     });
     loadMessageHistory(roomName);
   }

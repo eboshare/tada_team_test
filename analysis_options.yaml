@@ -1,11 +1,12 @@
 analyzer:
   exclude:
-    - lib/generated/**/*.dart
-    - lib/**/*.g.dart
-    - lib/**/*.gr.dart
-    - lib/**/*.freezed.dart
-    - lib/**/*.iconfig.dart
-    - lib/**/*.config.dart
+    - 'lib/generated/**/*.dart'
+    - 'lib/generated/*.dart'
+    - 'lib/**/*.g.dart'
+    - 'lib/**/*.gr.dart'
+    - 'lib/**/*.freezed.dart'
+    - 'lib/**/*.iconfig.dart'
+    - 'lib/**/*.config.dart'
 
   errors:
     missing_required_param: error
@@ -113,7 +114,7 @@ linter:
     - avoid_types_on_closure_parameters
     - avoid_unnecessary_containers
     - camel_case_extensions
-    - cascade_invocations
+#    - cascade_invocations
     - curly_braces_in_flow_control_structures
     - empty_constructor_bodies
     - file_names

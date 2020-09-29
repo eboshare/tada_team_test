@@ -21,6 +21,15 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
-    "mainPageTitle" : MessageLookupByLibrary.simpleMessage("Main Page")
+    "chatListPageTitle" : MessageLookupByLibrary.simpleMessage("Rooms"),
+    "chatListTileTime" : MessageLookupByLibrary.simpleMessage("HH:mm"),
+    "chatListUnableToLoad" : MessageLookupByLibrary.simpleMessage("Can\'t load chat list, sorry."),
+    "chatRoomUnableToLoadHistory" : MessageLookupByLibrary.simpleMessage("Can\'t load chat history,\ntry again later."),
+    "chatTextFieldPlaceholder" : MessageLookupByLibrary.simpleMessage("Enter some text..."),
+    "emptyChatHistory" : MessageLookupByLibrary.simpleMessage("Chat history is empty"),
+    "loginFormUsernamePlaceholder" : MessageLookupByLibrary.simpleMessage("Username"),
+    "loginPageTitle" : MessageLookupByLibrary.simpleMessage("Log In"),
+    "newChatRoomFormPlaceholder" : MessageLookupByLibrary.simpleMessage("New chat room name"),
+    "newChatRoomPageTitle" : MessageLookupByLibrary.simpleMessage("Create Chat Room")
   };
 }

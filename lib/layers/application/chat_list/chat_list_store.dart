@@ -1,8 +1,8 @@
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
 
-import 'package:tada_team_test/helper/constants.dart';
-import 'package:tada_team_test/helper/store_helpers.dart';
+import 'package:tada_team_test/utils/enums.dart';
+import 'package:tada_team_test/utils/store_helpers.dart';
 import 'package:tada_team_test/layers/domain/entities/room/room.dart';
 import 'package:tada_team_test/layers/domain/repositories/i_chat_client.dart';
 import 'package:tada_team_test/layers/domain/repositories/i_chat_facade.dart';

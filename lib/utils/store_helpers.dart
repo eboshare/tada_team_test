@@ -1,5 +1,5 @@
 import 'package:mobx/mobx.dart';
-import 'package:tada_team_test/helper/constants.dart';
+import 'package:tada_team_test/utils/enums.dart';
 
 LoadingStatus mapObservableFutureToStatus(ObservableFuture future) {
   final status = future?.status;
